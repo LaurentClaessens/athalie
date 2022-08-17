@@ -1,7 +1,9 @@
 """Here are the functions making the dirty work."""
 
 
+import sys
 import subprocess
+_ = sys
 
 
 dprint = print
@@ -16,6 +18,8 @@ def pak_to_task(pak):
         parts = line.split(":")
         key = parts[0].strip()
         value = parts[1].strip()
+        if key == "estimated CPU time remaining":
+            task["remaining"] = float(value)
         task[key] = value
     return task
 
@@ -28,4 +32,10 @@ def get_json_tasks():
     tasks = []
     for pak in paks:
         task = pak_to_task(pak)
-        tasks.append(task)
+        if task:
+            # The first element in the text split is
+            # ======== Tasks ========
+            # 1
+            # which do not correspond to a task.
+            tasks.append(task)
+    return tasks
