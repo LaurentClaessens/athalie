@@ -1,18 +1,23 @@
 #!venv/bin/python3
 
 
-from dirty import get_json_tasks
-from task import Task
+import time
+from station import Station
 
 
 def do_work():
     """Do the work."""
-    json_tasks = get_json_tasks()
-    tasks = [Task(task) for task in json_tasks]
-    tasks.sort(key=lambda task: task.remaining)
+    with Station() as station:
+        tasks = station.by_remaining()
 
-    for task in tasks:
-        print(task.remaining)
+        ok_tasks = [tasks[0], tasks[-1], tasks[-2]]
+        for task in station:
+            print(task.remaining)
+            if task not in ok_tasks:
+                task.suspend()
+
+        time.sleep(1)
+        station.resume_all()
 
 
 do_work()

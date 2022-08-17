@@ -18,9 +18,14 @@ def pak_to_task(pak):
         parts = line.split(":")
         key = parts[0].strip()
         value = parts[1].strip()
+        task[key] = value
+
+        if key == "project URL":
+            reparts = line.split(" URL:")
+            url = reparts[1].strip()
+            task["project_url"] = url
         if key == "estimated CPU time remaining":
             task["remaining"] = float(value)
-        task[key] = value
     return task
 
 
@@ -39,3 +44,10 @@ def get_json_tasks():
             # which do not correspond to a task.
             tasks.append(task)
     return tasks
+
+
+def set_state(task, state):
+    """Suspend a task"""
+    project_url = task.project_url
+    name = task.name
+    subprocess.run(['boinccmd', '--task', project_url, name, state])
