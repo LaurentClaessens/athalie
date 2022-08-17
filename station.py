@@ -1,5 +1,6 @@
 """Your work station. This is a set of tasks."""
 
+import time
 from task import Task
 from dirty import get_json_tasks
 
@@ -28,6 +29,7 @@ class Station:
 
     def resume_all(self):
         """Resume all tasks."""
+        time.sleep(1)
         [task.resume() for task in self]
 
     def __enter__(self):
