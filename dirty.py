@@ -26,6 +26,13 @@ def pak_to_task(pak):
             task["project_url"] = url
         if key == "estimated CPU time remaining":
             task["remaining"] = float(value)
+
+        if key == "ready to report":
+            if "yes" in value:
+                task["ready_to_report"] = True
+            if "no" in value:
+                task["ready_to_report"] = False
+
     return task
 
 

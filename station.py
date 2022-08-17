@@ -18,7 +18,8 @@ class Station:
     def __init__(self):
         """Initialize"""
         json_tasks = get_json_tasks()
-        self.tasks = [Task(task) for task in json_tasks]
+        self.tasks = [Task(task) for task in json_tasks
+                      if not task["ready_to_report"]]
 
     def by_remaining(self):
         """Return the list of tasks sorted by remaining time."""

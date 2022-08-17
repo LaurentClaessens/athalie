@@ -14,6 +14,7 @@ class Task:
         self.name = json_task["name"]
         self.active_state = json_task["active_task_state"]
         self.project_url = json_task["project_url"]
+        self.ready_to_report = json_task["ready_to_report"]
 
     def resume(self):
         """Resume the task."""
