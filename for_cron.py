@@ -16,7 +16,6 @@ def make_me_happy():
 
         ok_tasks = [tasks[0], tasks[-1], tasks[-2]]
         for task in station:
-            print(task.remaining)
             if task not in ok_tasks:
                 task.suspend()
 

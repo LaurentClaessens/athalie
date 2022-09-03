@@ -3,21 +3,22 @@
 
 import time
 from station import Station
+from utilities import human_duration
+from utilities import human_timestamp
 
 
 def do_work():
     """Do the work."""
     with Station() as station:
-        tasks = station.by_remaining()
+        total = station.remaining()
+        average = total / len(station)
+        duration = total / 3
+        now = time.time()
+        end_time = now + duration
+        print(human_duration(duration), '-->', human_timestamp(end_time))
 
-        ok_tasks = [tasks[0], tasks[-1], tasks[-2]]
-        for task in station:
-            print(task.remaining)
-            if task not in ok_tasks:
-                task.suspend()
-
-        time.sleep(1)
-        station.resume_all()
+        average_dur = average / 3
+        print(human_duration(average_dur))
 
 
 do_work()

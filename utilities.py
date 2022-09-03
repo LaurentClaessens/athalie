@@ -2,10 +2,20 @@
 
 import time
 import json
+import string
 import random
 import datetime
 import contextlib
 from pathlib import Path
+
+
+def human_duration(duration):
+    """Write a human readable duration (in seconds)"""
+    # days = int(duration // 86400)
+    hours = int(duration // 3600 % 24)
+    minutes = int(duration // 60 % 60)
+    seconds = int(duration % 60)
+    return f"{hours}h{minutes}m{seconds}s"
 
 
 def random_string(length):
