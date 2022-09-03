@@ -1,6 +1,11 @@
 #!/bin/bash
 
 
+#
+# git clone https://github.com/pyenv/pyenv.git
+# cd .pyenv/bin
+# ./pyenv install 3.10.4
+
 MAIN_DIR=$(pwd)
 VENV_DIR="$MAIN_DIR/venv"
 BIN_DIR="$VENV_DIR/bin"
