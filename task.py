@@ -16,6 +16,11 @@ class Task:
         self.project_url = json_task["project_url"]
         self.ready_to_report = json_task["ready_to_report"]
 
+    def is_started(self):
+        """Say if the computation is already started."""
+        elapsed = float(self.json_task["elapsed task time"])
+        return elapsed > 0
+
     def resume(self):
         """Resume the task."""
         set_state(self, "resume")
