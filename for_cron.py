@@ -44,7 +44,7 @@ def get_gap_index(station):
     tasks = station.by_remaining()
     previous = tasks[0]
     for num, task in enumerate(tasks[1:]):
-        if task.remaining - previous.remaining > 1.5*3600:
+        if task.remaining - previous.remaining > 3600:
             return num + 1
     return None
 
