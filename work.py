@@ -2,22 +2,20 @@
 
 
 import time
+from utilities import human_timestamp
+from utilities import human_seconds
 from station import Station
 
 
-def do_work():
+def do_work(station):
     """Do the work."""
-    with Station() as station:
-        tasks = station.by_remaining()
-
-        ok_tasks = [tasks[0], tasks[-1], tasks[-2]]
-        for task in station:
-            print(task.remaining)
-            if task not in ok_tasks:
-                task.suspend()
-
-        time.sleep(1)
-        station.resume_all()
+    tasks = [task for task in station.by_remaining()
+             if task.is_started()]
+    total = sum(task.remaining for task in tasks) / 3
+    now = time.time()
+    end_time = now + total
+    print(f"{human_seconds(total)} -> {human_timestamp(end_time)}")
 
 
-do_work()
+with Station() as station:
+    do_work(station)
