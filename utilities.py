@@ -1,7 +1,9 @@
 """Some utilities"""
 
 import time
+import math
 import json
+import string
 import random
 import datetime
 import contextlib
@@ -78,3 +80,17 @@ def read_json_file(json_path, default=None):
             message = f"Json error in {json_path}:\n {err}"
             raise ValueError(message) from err
     return answer
+
+
+def human_seconds(total):
+    """
+    Return a human readable time.
+
+    `total` is a number of seconds and we return xxh:yym:zzs
+    """
+    hours = math.floor(total / 3600)
+    remainder = total - 3600 * hours
+    minutes = math.floor(remainder / 60)
+    remainder = remainder - 60 * minutes
+    seconds = round(remainder)
+    return f"{hours}h:{minutes}m:{seconds}s"
