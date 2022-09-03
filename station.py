@@ -27,6 +27,10 @@ class Station:
         self.tasks.sort(key=lambda task: task.remaining)
         return self.tasks
 
+    def remaining(self):
+        """The total remaining time."""
+        return sum(task.remaining for task in self)
+
     def resume_all(self):
         """Resume all tasks."""
         time.sleep(1)
@@ -43,3 +47,6 @@ class Station:
     def __getitem__(self, index):
         """Make Station iterable over the tasks."""
         return self.tasks[index]
+
+    def __len__(self):
+        return len(self.tasks)

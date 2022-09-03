@@ -10,6 +10,15 @@ import contextlib
 from pathlib import Path
 
 
+def human_duration(duration):
+    """Write a human readable duration (in seconds)"""
+    # days = int(duration // 86400)
+    hours = int(duration // 3600 % 24)
+    minutes = int(duration // 60 % 60)
+    seconds = int(duration % 60)
+    return f"{hours}h{minutes}m{seconds}s"
+
+
 def random_string(length):
     """Return a random string of letters of the given length."""
     rn_list = [random.choice(string.ascii_letters) for i in range(1, length)]
