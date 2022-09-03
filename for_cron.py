@@ -3,6 +3,7 @@
 
 from station import Station
 from utilities import human_timestamp
+from utilities import human_duration
 
 
 dprint = print
@@ -21,7 +22,7 @@ def get_hurry(station):
     tasks.reverse()
     for task in station:
         str_deadline = task.json_task["report deadline"]
-        print(str_deadline)
+        # print(str_deadline)
         if "Tue Sep 4" in str_deadline:
             prio.append(task)
     return prio
@@ -43,9 +44,16 @@ def get_gap_index(station):
     """Return the index of the task with gap."""
     tasks = station.by_remaining()
     previous = tasks[0]
-    for num, task in enumerate(tasks[1:]):
-        if task.remaining - previous.remaining > 3600:
-            return num + 1
+    for num, task in enumerate(tasks[0:]):
+        delta = task.remaining - previous.remaining
+        if delta > 45*60:
+            if num != 1:
+                # A gap on first position is ok.
+                print(f"gap {human_duration(delta)} at position {num+1}: "
+                      f"{human_duration(previous.remaining)} --> "
+                      f" -> {human_duration(task.remaining)}")
+                return num + 1
+        previous = task
     return None
 
 
@@ -56,11 +64,10 @@ def get_gapped(station):
         return []
 
     tasks = station.by_remaining()
-    dprint("je vois un gap à la position", gap_index)
     ok_tasks = tasks[gap_index:]
-    print(len(ok_tasks))
+    ok_tasks.reverse()
 
-    return get_last(station)
+    return ok_tasks
 
 
 def prioritary_tasks(station):
