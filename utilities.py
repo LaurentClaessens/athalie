@@ -1,5 +1,6 @@
 """Some utilities"""
 
+import sys
 import time
 import math
 import json
@@ -8,6 +9,56 @@ import random
 import datetime
 import contextlib
 from pathlib import Path
+_ = sys
+
+
+dprint = print
+
+
+def is_hurry(task):
+    """Say if a task is in a hurry."""
+    str_deadline = task.json_task["report deadline"]
+    hur_strings = ["Sat Sep 10", "Sun Sep 11", "Mon Sep 12"]
+    dprint(str_deadline)
+    for hur_str in hur_strings:
+        if hur_str in str_deadline:
+            return True
+    return False
+
+
+def remove_duplicates(my_list):
+    """Remove duplicates of the list."""
+    answer = []
+    for task in my_list:
+        if task not in answer:
+            answer.append(task)
+    return answer
+
+
+def get_hurry(station, new_tasks=True):
+    """Add the task in a hurry."""
+    prio = []
+    tasks = station.by_remaining()
+    if not new_tasks:
+        tasks = [task for task in tasks if task.is_started()]
+
+    tasks.reverse()
+    prio = [task for task in tasks if is_hurry(task)]
+    hurry_duration = list_duration(prio)
+    end_time = time.time() + hurry_duration
+
+    print(
+        f"hurry {human_duration(hurry_duration)} -> "
+        f"{human_timestamp(end_time)}")
+
+    prio = remove_duplicates(prio)
+    return prio
+
+
+def list_duration(task_list):
+    """Say the duration of a task list"""
+    length = sum(task.remaining for task in task_list)
+    return length / 3
 
 
 def is_hurry(task):

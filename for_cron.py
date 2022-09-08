@@ -4,8 +4,8 @@
 from station import Station
 from utilities import human_timestamp
 from utilities import human_duration
-from utilities import list_duration
-from utilities import is_hurry
+from utilities import get_hurry
+_ = get_hurry
 
 
 dprint = print
@@ -17,24 +17,12 @@ def may_append(my_list, obj):
         my_list.append(obj)
 
 
-def get_hurry(station, new_tasks=True):
-    """Add the task in a hurry."""
-    prio = []
-    tasks = station.by_remaining()
-    if not new_tasks:
-        tasks = [task for task in tasks if task.is_started()]
-
-    tasks.reverse()
-    prio = [task for task in tasks if is_hurry(task)]
-    return prio
-
-
 def get_standard(station, new_tasks=True):
     """First and two lasts."""
     tasks = station.by_remaining()
     if not new_tasks:
         tasks = [task for task in tasks if task.is_started()]
-    return([tasks[0], tasks[-1], tasks[-2]])
+    return([tasks[-1], tasks[-2], tasks[0]])
 
 
 def get_last(station):
@@ -49,7 +37,7 @@ def get_gap_index(station):
     previous = tasks[0]
     for num, task in enumerate(tasks[0:]):
         delta = task.remaining - previous.remaining
-        if delta > 45*60:
+        if delta > 30 * 60:
             if num != 1:
                 # A gap on first position is ok.
                 print(f"gap {human_duration(delta)} at position {num+1}: "
@@ -76,9 +64,8 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    #prio.extend(get_hurry(station, new_tasks=False))
     prio.extend(get_hurry(station))
-    #prio.extend(get_standard(station, new_tasks=False))
+
     prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
 
@@ -98,9 +85,9 @@ def make_me_happy(station):
     prio = prioritary_tasks(station)
     ok_tasks = prio[0:3]
 
-    dprint("selectionnées:")
+    print("selectionnées:")
     for task in ok_tasks:
-        dprint(task.human_remaining)
+        print(task.human_remaining)
 
     for task in station:
         if task not in ok_tasks:
