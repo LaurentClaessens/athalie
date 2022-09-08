@@ -2,6 +2,7 @@
 
 
 from dirty import set_state
+from utilities import human_duration
 
 
 class Task:
@@ -11,6 +12,7 @@ class Task:
         """Initialize from a json."""
         self.json_task = json_task
         self.remaining = json_task["remaining"]
+        self.human_remaining = human_duration(self.remaining)
         self.name = json_task["name"]
         self.active_state = json_task["active_task_state"]
         self.project_url = json_task["project_url"]
