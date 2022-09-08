@@ -2,6 +2,7 @@
 
 
 import time
+from utilities import is_hurry
 from utilities import human_timestamp
 from utilities import human_seconds
 from station import Station
@@ -10,7 +11,7 @@ from station import Station
 def do_work(station):
     """Do the work."""
     tasks = [task for task in station.by_remaining()
-             if task.is_started()]
+             if is_hurry(task)]
     total = sum(task.remaining for task in tasks) / 3
     now = time.time()
     end_time = now + total

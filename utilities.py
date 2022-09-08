@@ -10,6 +10,19 @@ import contextlib
 from pathlib import Path
 
 
+def is_hurry(task):
+    """Say if a task is in a hurry."""
+    str_deadline = task.json_task["report deadline"]
+    print(str_deadline)
+    return "Fri Sep  9" in str_deadline
+
+
+def list_duration(task_list):
+    """Say the duration of a task list"""
+    length = sum(task.remaining for task in task_list)
+    return length / 3
+
+
 def human_duration(duration):
     """Write a human readable duration (in seconds)"""
     # days = int(duration // 86400)
