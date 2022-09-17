@@ -64,7 +64,8 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    prio.extend(get_hurry(station))
+    hurry_strs = ["Sat Sep 17"]
+    prio.extend(get_hurry(station, hurry_strs))
 
     prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
