@@ -5,7 +5,6 @@ from station import Station
 from utilities import human_timestamp
 from utilities import human_duration
 from utilities import get_hurry
-_ = get_hurry
 
 
 dprint = print
@@ -64,7 +63,8 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    prio.extend(get_hurry(station))
+    hurry_strs = ["Mon Sep 19"]
+    prio.extend(get_hurry(station, hurry_strs))
 
     prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
