@@ -76,6 +76,7 @@ def prioritary_tasks(station):
     hurry_strs = ["Tue Sep 20", "Wed Sep 21"]
     prio.extend(get_hurry(station, hurry_strs))
     dprint("après hurry", len(prio))
+    prio.extend(get_hurry(station, hurry_strs))
 
     prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
