@@ -1,11 +1,12 @@
 #!venv/bin/python3
 
+import sys
 
 from station import Station
 from utilities import human_timestamp
 from utilities import human_duration
 from utilities import get_hurry
-_ = get_hurry
+_ = [sys]
 
 
 dprint = print
@@ -35,6 +36,7 @@ def get_gap_index(station):
     """Return the index of the task with gap."""
     tasks = station.by_remaining()
     previous = tasks[0]
+    indices = []
     for num, task in enumerate(tasks[0:]):
         delta = task.remaining - previous.remaining
         if delta > 30 * 60:
@@ -42,10 +44,14 @@ def get_gap_index(station):
                 # A gap on first position is ok.
                 print(f"gap {human_duration(delta)} at position {num+1}: "
                       f"{human_duration(previous.remaining)} --> "
-                      f" -> {human_duration(task.remaining)}")
-                return num
+                      f"{human_duration(task.remaining)}")
+                indices.append({"index": num, "delta": delta})
         previous = task
-    return None
+
+    if not indices:
+        return None
+    indices.sort(key=lambda x: x["delta"])
+    return indices[0]["index"]
 
 
 def get_gapped(station):
@@ -56,6 +62,9 @@ def get_gapped(station):
 
     tasks = station.by_remaining()
     ok_tasks = tasks[gap_index:]
+    dprint("gap task:")
+    for task in ok_tasks:
+        print("   ", task.human_remaining)
     ok_tasks.reverse()
 
     return ok_tasks
@@ -64,7 +73,9 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    prio.extend(get_hurry(station))
+    hurry_strs = ["Tue Sep 20", "Wed Sep 21"]
+    prio.extend(get_hurry(station, hurry_strs))
+    dprint("après hurry", len(prio))
 
     prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
