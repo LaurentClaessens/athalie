@@ -1,11 +1,13 @@
 #!venv/bin/python3
 
+import sys
+from pathlib import Path
 
 from station import Station
 from utilities import human_timestamp
 from utilities import human_duration
 from utilities import get_hurry
-_ = get_hurry
+_ = [sys]
 
 
 dprint = print
@@ -35,17 +37,26 @@ def get_gap_index(station):
     """Return the index of the task with gap."""
     tasks = station.by_remaining()
     previous = tasks[0]
+    indices = []
     for num, task in enumerate(tasks[0:]):
         delta = task.remaining - previous.remaining
-        if delta > 30 * 60:
+        if delta > 60 * 60:
             if num != 1:
                 # A gap on first position is ok.
                 print(f"gap {human_duration(delta)} at position {num+1}: "
                       f"{human_duration(previous.remaining)} --> "
-                      f" -> {human_duration(task.remaining)}")
-                return num
+                      f"{human_duration(task.remaining)}")
+                indices.append({"index": num, "delta": delta})
         previous = task
-    return None
+
+    if not indices:
+        return None
+    sel_gap = indices[0]
+    dprint(f"selected gap: {sel_gap['index'] + 1}"
+           f"-- {human_duration(sel_gap['delta'])}")
+    return sel_gap["index"]
+    indices.sort(key=lambda x: x["delta"])
+    return indices[-1]["index"]
 
 
 def get_gapped(station):
@@ -56,6 +67,9 @@ def get_gapped(station):
 
     tasks = station.by_remaining()
     ok_tasks = tasks[gap_index:]
+    print("gap task:")
+    for task in ok_tasks:
+        print("   ", task.human_remaining)
     ok_tasks.reverse()
 
     return ok_tasks
@@ -64,7 +78,9 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    prio.extend(get_hurry(station))
+    hurry_strs = ["Tue Sep 20", "Wed Sep 21"]
+    prio.extend(get_hurry(station, hurry_strs))
+    dprint("après hurry", len(prio))
 
     prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
@@ -78,7 +94,9 @@ def prioritary_tasks(station):
 
 def make_me_happy(station):
     """Do the work."""
-    from pathlib import Path
+    print("----------")
+    print(human_timestamp())
+    print("----------")
     logfile = Path('./ath.log')
     logfile.write_text(human_timestamp())
     station.resume_all()

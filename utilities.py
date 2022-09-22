@@ -14,14 +14,12 @@ _ = sys
 
 dprint = print
 
-
-def is_hurry(task):
+def is_hurry(task, hurry_strs):
     """Say if a task is in a hurry."""
     str_deadline = task.json_task["report deadline"]
-    hur_strings = ["Sat Sep 10", "Sun Sep 11", "Mon Sep 12"]
-    dprint(str_deadline)
-    for hur_str in hur_strings:
-        if hur_str in str_deadline:
+    print(str_deadline)
+    for hurry_str in hurry_strs:
+        if hurry_str in str_deadline:
             return True
     return False
 
@@ -35,7 +33,7 @@ def remove_duplicates(my_list):
     return answer
 
 
-def get_hurry(station, new_tasks=True):
+def get_hurry(station, hurry_strs, new_tasks=True):
     """Add the task in a hurry."""
     prio = []
     tasks = station.by_remaining()
@@ -43,7 +41,7 @@ def get_hurry(station, new_tasks=True):
         tasks = [task for task in tasks if task.is_started()]
 
     tasks.reverse()
-    prio = [task for task in tasks if is_hurry(task)]
+    prio = [task for task in tasks if is_hurry(task, hurry_strs)]
     hurry_duration = list_duration(prio)
     end_time = time.time() + hurry_duration
 
@@ -61,11 +59,6 @@ def list_duration(task_list):
     return length / 3
 
 
-def is_hurry(task):
-    """Say if a task is in a hurry."""
-    str_deadline = task.json_task["report deadline"]
-    print(str_deadline)
-    return "Fri Sep  9" in str_deadline
 
 
 def list_duration(task_list):
