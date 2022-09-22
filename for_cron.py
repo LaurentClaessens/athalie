@@ -1,7 +1,6 @@
 #!venv/bin/python3
 
 import sys
-from pathlib import Path
 
 from station import Station
 from utilities import human_timestamp
@@ -97,8 +96,6 @@ def make_me_happy(station):
     print("----------")
     print(human_timestamp())
     print("----------")
-    logfile = Path('./ath.log')
-    logfile.write_text(human_timestamp())
     station.resume_all()
     prio = prioritary_tasks(station)
     ok_tasks = prio[0:3]
