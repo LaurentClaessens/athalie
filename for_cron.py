@@ -50,12 +50,11 @@ def get_gap_index(station):
 
     if not indices:
         return None
-    sel_gap = indices[0]
+    indices.sort(key=lambda x: x["delta"])
+    sel_gap = indices[-1]
     dprint(f"selected gap: {sel_gap['index'] + 1}"
            f"-- {human_duration(sel_gap['delta'])}")
     return sel_gap["index"]
-    indices.sort(key=lambda x: x["delta"])
-    return indices[-1]["index"]
 
 
 def get_gapped(station):
@@ -77,11 +76,11 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    hurry_strs = ["Tue Sep 20", "Wed Sep 21"]
+    hurry_strs = ["Sun Oct  9"]
     prio.extend(get_hurry(station, hurry_strs))
     dprint("après hurry", len(prio))
 
-    prio.extend(get_gapped(station))
+    # prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
 
     filtered = []

@@ -14,6 +14,7 @@ _ = sys
 
 dprint = print
 
+
 def is_hurry(task, hurry_strs):
     """Say if a task is in a hurry."""
     str_deadline = task.json_task["report deadline"]
@@ -37,10 +38,10 @@ def get_hurry(station, hurry_strs, new_tasks=True):
     """Add the task in a hurry."""
     prio = []
     tasks = station.by_remaining()
+    tasks.reverse()
     if not new_tasks:
         tasks = [task for task in tasks if task.is_started()]
 
-    tasks.reverse()
     prio = [task for task in tasks if is_hurry(task, hurry_strs)]
     hurry_duration = list_duration(prio)
     end_time = time.time() + hurry_duration
@@ -51,14 +52,6 @@ def get_hurry(station, hurry_strs, new_tasks=True):
 
     prio = remove_duplicates(prio)
     return prio
-
-
-def list_duration(task_list):
-    """Say the duration of a task list"""
-    length = sum(task.remaining for task in task_list)
-    return length / 3
-
-
 
 
 def list_duration(task_list):
