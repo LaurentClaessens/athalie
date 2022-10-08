@@ -129,4 +129,4 @@ def human_seconds(total):
     minutes = math.floor(remainder / 60)
     remainder = remainder - 60 * minutes
     seconds = round(remainder)
-    return f"{hours}h:{minutes}m:{seconds}s"
+    return f"{hours}h{minutes}m{seconds}s".ljust(9)

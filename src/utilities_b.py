@@ -80,7 +80,9 @@ def get_hurry(station, new_tasks=True):
     return prio
 
 
-def list_duration(task_list):
+def list_duration(task_list, my_duration=False):
     """Say the duration of a task list"""
     length = sum(task.remaining for task in task_list)
+    if my_duration:
+        length = sum(task.my_remaining() for task in task_list)
     return length / 3

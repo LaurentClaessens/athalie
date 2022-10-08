@@ -17,6 +17,7 @@ dprint = print
 
 def print_summary(tasks):
     """Print a summary of the tasks."""
+    tasks.sort(key=lambda x: x.remaining)
     for task in tasks:
         color = task.project.color
         my_str = human_duration(task.my_remaining()).ljust(8)
@@ -25,8 +26,16 @@ def print_summary(tasks):
         with ColorPrint(color):
             print(task.project_name.ljust(8), pr_str, my_str, active)
 
+
+def print_previsions(tasks):
+    """Print the previsions."""
     now = time.time()
     tot_dur = list_duration(tasks)
+    tot_finish = now + tot_dur
+    print(f"{human_seconds(tot_dur)} -> {human_timestamp(tot_finish)}")
+
+    now = time.time()
+    tot_dur = list_duration(tasks, my_duration=True)
     tot_finish = now + tot_dur
     print(f"{human_seconds(tot_dur)} -> {human_timestamp(tot_finish)}")
 
@@ -36,8 +45,10 @@ def do_work(station):
     h_tasks = get_hurry(station)
 
     print_summary(station.by_remaining())
-    print("--")
-    print_summary(h_tasks)
+    # print_previsions(station.by_remaining())
+    # print("--")
+    # print_summary(h_tasks)
+    print_previsions(h_tasks)
 
 
 with Station() as station:
