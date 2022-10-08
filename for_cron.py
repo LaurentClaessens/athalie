@@ -71,8 +71,7 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    hurry_strs = read_json_file("hurry_strings.json")
-    prio.extend(get_hurry(station, hurry_strs))
+    prio.extend(get_hurry(station))
     dprint("Hurry", len(prio))
     prio.extend(get_project_prio(station))
 

@@ -5,6 +5,7 @@ import time
 import contextlib
 
 from src.utilities import human_duration
+from src.utilities import read_json_file
 from src.utilities import human_timestamp
 
 
@@ -42,7 +43,7 @@ def get_project_prio(station):
 def is_hurry(task, hurry_strs):
     """Say if a task is in a hurry."""
     str_deadline = task.json_task["report deadline"]
-    print(str_deadline)
+    # print(str_deadline)
     for hurry_str in hurry_strs:
         if hurry_str in str_deadline:
             return True
@@ -58,8 +59,9 @@ def remove_duplicates(my_list):
     return answer
 
 
-def get_hurry(station, hurry_strs, new_tasks=True):
+def get_hurry(station, new_tasks=True):
     """Add the task in a hurry."""
+    hurry_strs = read_json_file("hurry_strings.json")
     prio = []
     tasks = station.by_remaining()
     tasks.reverse()
