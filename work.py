@@ -25,8 +25,9 @@ def do_work(station):
         color = task.project.color
         my_str = human_duration(task.my_remaining())
         pr_str = task.human_remaining.ljust(9)
+        active = ["", "*"][task.active_state=="EXECUTING"]
         with ColorPrint(color):
-            print(task.project_name.ljust(8), pr_str, my_str)
+            print(task.project_name.ljust(8), pr_str, my_str, active)
 
 
 with Station() as station:
