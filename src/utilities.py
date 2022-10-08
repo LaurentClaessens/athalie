@@ -9,10 +9,32 @@ import random
 import datetime
 import contextlib
 from pathlib import Path
+
+from colorama import Fore, Style
 _ = sys
 
 
 dprint = print
+
+
+class ColorPrint:
+    """Print in color."""
+
+    def __init__(self, color):
+        """Initialize."""
+        self.color = color
+
+    def __enter__(self):
+        """Initiate the color."""
+        color_to_fore = {}
+        try:
+            fore_color = color_to_fore[self.color]
+        except KeyError:
+            fore_color = getattr(Fore, self.color.upper())
+        print(fore_color, end="")
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        print(Style.RESET_ALL, end="")
 
 
 def human_duration(duration):

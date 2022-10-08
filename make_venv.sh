@@ -18,9 +18,6 @@ echo "le python3 sera $PYTHON3"
 echo "Creating the virtual environment"
 "$PYTHON3" -m venv "$VENV_DIR"
 
-echo "fait"
-exit 1
-
 cd "$BIN_DIR" || exit 1
 ./pip3 install --upgrade pip
 

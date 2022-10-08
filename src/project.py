@@ -18,6 +18,17 @@ class Project:
         self.project_name = url_to_name[self.project_url]
         self.tasks = [task for task in self.station
                       if task.project_name == self.project_name]
+        self.color = self.get_color()
+
+    def get_color(self):
+        """Say the project's color."""
+        if self.project_name == "rosetta":
+            return "green"
+        if self.project_name == "sidock":
+            return "red"
+        if self.project_name == "einstein":
+            return "yellow"
+        return "black"
 
     def show_json(self):
         print("=====================================")
