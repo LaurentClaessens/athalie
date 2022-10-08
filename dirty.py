@@ -8,6 +8,18 @@ _ = sys
 
 dprint = print
 
+url_to_name = {
+    "https://boinc.bakerlab.org/rosetta/": "rosetta",
+    "http://einstein.phys.uwm.edu/": "einstein",
+    "https://www.sidock.si/sidock/": "sidock",
+    "http://www.worldcommunitygrid.org/": "world_community_grid",
+    "https://climateprediction.net/": "climate_prediction",
+    "http://www.cosmologyathome.org/": "cosmology",
+    "https://lhcathome.cern.ch/lhcathome/":"lhc",
+    "https://www.mlcathome.org/mlcathome/": "mlc",
+    "https://universeathome.pl/universe/": "universe"
+}
+
 
 def pak_to_task(pak):
     """Return a json like task from its output"""
@@ -15,7 +27,7 @@ def pak_to_task(pak):
     for line in pak.splitlines():
         if ": " not in line:
             continue
-        parts = line.split(":")
+        parts = line.split(": ")
         key = parts[0].strip()
         value = parts[1].strip()
         task[key] = value
@@ -39,6 +51,23 @@ def pak_to_task(pak):
 def get_json_tasks():
     """Return the list of tasks as json like object."""
     b_output = subprocess.check_output(['boinccmd', '--get_tasks'], timeout=2)
+    text = b_output.decode('utf8')
+    paks = text.split(") -----------")
+    tasks = []
+    for pak in paks:
+        task = pak_to_task(pak)
+        if task:
+            # The first element in the text split is
+            # ======== Tasks ========
+            # 1
+            # which do not correspond to a task.
+            tasks.append(task)
+    return tasks
+
+
+def get_boinccmd_json(arg):
+    """Return the list of tasks as json like object."""
+    b_output = subprocess.check_output(['boinccmd', arg], timeout=2)
     text = b_output.decode('utf8')
     paks = text.split(") -----------")
     tasks = []

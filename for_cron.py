@@ -3,9 +3,10 @@
 import sys
 
 from station import Station
-from utilities import human_timestamp
-from utilities import human_duration
 from utilities import get_hurry
+from utilities import human_duration
+from utilities import read_json_file
+from utilities import human_timestamp
 _ = [sys]
 
 
@@ -76,7 +77,7 @@ def get_gapped(station):
 def prioritary_tasks(station):
     """Return a list of task to be prioritized."""
     prio = []
-    hurry_strs = ["Sun Oct  9"]
+    hurry_strs = read_json_file("hurry_strings.json")
     prio.extend(get_hurry(station, hurry_strs))
     dprint("après hurry", len(prio))
 

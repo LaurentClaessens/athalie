@@ -1,6 +1,7 @@
 """An object to manage a task."""
 
 
+from dirty import url_to_name
 from dirty import set_state
 from utilities import human_duration
 
@@ -15,8 +16,10 @@ class Task:
         self.human_remaining = human_duration(self.remaining)
         self.name = json_task["name"]
         self.active_state = json_task["active_task_state"]
-        self.project_url = json_task["project_url"]
         self.ready_to_report = json_task["ready_to_report"]
+        self.project_url = self.json_task["project_url"]
+        self.project_name = url_to_name[self.project_url]
+        self.project = None
 
     def is_started(self):
         """Say if the computation is already started."""

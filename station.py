@@ -2,7 +2,10 @@
 
 import time
 from task import Task
+from project import Project
 from dirty import get_json_tasks
+from dirty import get_boinccmd_json
+_ = [get_json_tasks]
 
 
 dprint = print
@@ -18,9 +21,17 @@ class Station:
 
     def __init__(self):
         """Initialize"""
-        json_tasks = get_json_tasks()
+        # json_tasks = get_json_tasks()
+        json_tasks = get_boinccmd_json("--get_tasks")
         self.tasks = [Task(task) for task in json_tasks
                       if not task["ready_to_report"]]
+        project_jsons = get_boinccmd_json("--get_project_status")
+        self.projects = [Project(proj_json, self)
+                         for proj_json in project_jsons]
+
+        for project in self.projects:
+            for task in project:
+                task.project = project
 
     def by_remaining(self):
         """Return the list of tasks sorted by remaining time."""
@@ -30,6 +41,10 @@ class Station:
     def remaining(self):
         """The total remaining time."""
         return sum(task.remaining for task in self)
+
+    def get_project_task(self, project_name):
+        """Return the list of tasks of the requested project."""
+        return [task for task in self if task.project_name == project_name]
 
     def resume_all(self):
         """Resume all tasks."""

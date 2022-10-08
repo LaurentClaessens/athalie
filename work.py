@@ -17,6 +17,10 @@ def do_work(station):
     tot_finish = now + tot_dur
     print(f"{human_seconds(tot_dur)} -> {human_timestamp(tot_finish)}")
 
+    for project in station.projects:
+        print(project.project_name, project.credit, len(project))
+
+
 
 with Station() as station:
     do_work(station)
