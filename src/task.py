@@ -1,9 +1,9 @@
 """An object to manage a task."""
 
 
-from dirty import url_to_name
-from dirty import set_state
-from utilities import human_duration
+from src.dirty import url_to_name
+from src.dirty import set_state
+from src.utilities import human_duration
 
 
 class Task:

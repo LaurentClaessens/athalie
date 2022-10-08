@@ -1,4 +1,4 @@
-"""Some utilities"""
+"""Some generic utilities."""
 
 import sys
 import time
@@ -13,51 +13,6 @@ _ = sys
 
 
 dprint = print
-
-
-def is_hurry(task, hurry_strs):
-    """Say if a task is in a hurry."""
-    str_deadline = task.json_task["report deadline"]
-    print(str_deadline)
-    for hurry_str in hurry_strs:
-        if hurry_str in str_deadline:
-            return True
-    return False
-
-
-def remove_duplicates(my_list):
-    """Remove duplicates of the list."""
-    answer = []
-    for task in my_list:
-        if task not in answer:
-            answer.append(task)
-    return answer
-
-
-def get_hurry(station, hurry_strs, new_tasks=True):
-    """Add the task in a hurry."""
-    prio = []
-    tasks = station.by_remaining()
-    tasks.reverse()
-    if not new_tasks:
-        tasks = [task for task in tasks if task.is_started()]
-
-    prio = [task for task in tasks if is_hurry(task, hurry_strs)]
-    hurry_duration = list_duration(prio)
-    end_time = time.time() + hurry_duration
-
-    print(
-        f"hurry {human_duration(hurry_duration)} -> "
-        f"{human_timestamp(end_time)}")
-
-    prio = remove_duplicates(prio)
-    return prio
-
-
-def list_duration(task_list):
-    """Say the duration of a task list"""
-    length = sum(task.remaining for task in task_list)
-    return length / 3
 
 
 def human_duration(duration):

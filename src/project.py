@@ -1,7 +1,9 @@
 """A class representing a project."""
 
 
-from dirty import url_to_name
+from src.dirty import url_to_name
+
+dprint = print
 
 
 class Project:
@@ -22,6 +24,11 @@ class Project:
         for key, value in self.project_json.items():
             print(f"{key} --> {value}")
         print("=====================================")
+
+    def by_remaining(self):
+        """Return the list of tasks sorted by remaining time."""
+        self.tasks.sort(key=lambda task: task.remaining)
+        return self.tasks
 
     def __getitem__(self, index):
         """Make Station iterable over the tasks."""

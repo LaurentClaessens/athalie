@@ -2,11 +2,13 @@
 
 import sys
 
-from station import Station
-from utilities import get_hurry
-from utilities import human_duration
-from utilities import read_json_file
-from utilities import human_timestamp
+from src.station import Station
+from src.utilities_b import get_hurry
+from src.utilities_b import get_standard
+from src.utilities_b import get_project_prio
+from src.utilities import human_duration
+from src.utilities import read_json_file
+from src.utilities import human_timestamp
 _ = [sys]
 
 
@@ -17,14 +19,6 @@ def may_append(my_list, obj):
     """Append if not present."""
     if obj not in my_list:
         my_list.append(obj)
-
-
-def get_standard(station, new_tasks=True):
-    """First and two lasts."""
-    tasks = station.by_remaining()
-    if not new_tasks:
-        tasks = [task for task in tasks if task.is_started()]
-    return([tasks[-1], tasks[-2], tasks[0]])
 
 
 def get_last(station):
@@ -79,7 +73,8 @@ def prioritary_tasks(station):
     prio = []
     hurry_strs = read_json_file("hurry_strings.json")
     prio.extend(get_hurry(station, hurry_strs))
-    dprint("après hurry", len(prio))
+    dprint("Hurry", len(prio))
+    prio.extend(get_project_prio(station))
 
     # prio.extend(get_gapped(station))
     prio.extend(get_standard(station))
@@ -102,7 +97,7 @@ def make_me_happy(station):
 
     print("selectionnées:")
     for task in ok_tasks:
-        print(task.human_remaining)
+        print(task.project.project_name, task.human_remaining)
 
     for task in station:
         if task not in ok_tasks:
