@@ -1,7 +1,7 @@
 
 
 import time
-from utilities import human_timestamp
+from src.utilities import human_timestamp
 
 
 def rest(h, m, pc):

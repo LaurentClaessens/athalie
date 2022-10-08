@@ -5,6 +5,8 @@ from src.dirty import url_to_name
 from src.dirty import set_state
 from src.utilities import human_duration
 
+dprint = print
+
 
 class Task:
     """Wrapper around a boinc task"""
@@ -19,12 +21,22 @@ class Task:
         self.ready_to_report = json_task["ready_to_report"]
         self.project_url = self.json_task["project_url"]
         self.project_name = url_to_name[self.project_url]
+        self.elapsed = float(self.json_task["elapsed task time"])
+        self.fraction_done = float(self.json_task.get("fraction done", 0))
         self.project = None
 
     def is_started(self):
         """Say if the computation is already started."""
         elapsed = float(self.json_task["elapsed task time"])
         return elapsed > 0
+
+    def my_remaining(self):
+        """Say my estimation of remaining."""
+        if self.fraction_done == 0:
+            return self.remaining
+        total_time = self.elapsed / self.fraction_done
+        remaining = total_time - self.elapsed
+        return remaining
 
     def resume(self):
         """Resume the task."""
