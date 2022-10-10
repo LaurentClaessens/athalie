@@ -23,6 +23,7 @@ class Task:
         self.project_name = url_to_name[self.project_url]
         self.elapsed = float(self.json_task["elapsed task time"])
         self.fraction_done = float(self.json_task.get("fraction done", 0))
+        self.report_deadline_str = self.json_task['report deadline']
         self.project = None
 
     def is_started(self):

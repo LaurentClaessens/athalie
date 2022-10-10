@@ -20,11 +20,13 @@ def print_summary(tasks):
     tasks.sort(key=lambda x: x.remaining)
     for task in tasks:
         color = task.project.color
-        my_str = human_duration(task.my_remaining()).ljust(8)
-        pr_str = task.human_remaining.ljust(8)
+        pr_str = task.human_remaining.ljust(9)
+        my_str = human_duration(task.my_remaining()).ljust(9)
+        deadline = task.report_deadline_str
+        deadline = ""
         active = ["", "*"][task.active_state == "EXECUTING"]
         with ColorPrint(color):
-            print(task.project_name.ljust(8), pr_str, my_str, active)
+            print(deadline, task.project_name.ljust(8), pr_str, my_str, active)
 
 
 def print_previsions(tasks):
