@@ -34,12 +34,12 @@ def print_previsions(tasks):
     now = time.time()
     tot_dur = list_duration(tasks)
     tot_finish = now + tot_dur
-    print(f"{human_seconds(tot_dur)} -> {human_timestamp(tot_finish)}")
+    print(f"lui: {human_seconds(tot_dur)} -> {human_timestamp(tot_finish)}")
 
     now = time.time()
     tot_dur = list_duration(tasks, my_duration=True)
     tot_finish = now + tot_dur
-    print(f"{human_seconds(tot_dur)} -> {human_timestamp(tot_finish)}")
+    print(f"moi: {human_seconds(tot_dur)} -> {human_timestamp(tot_finish)}")
 
 
 def do_work(station):

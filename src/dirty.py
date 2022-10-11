@@ -12,12 +12,13 @@ url_to_name = {
     "https://boinc.bakerlab.org/rosetta/": "rosetta",
     "http://einstein.phys.uwm.edu/": "einstein",
     "https://www.sidock.si/sidock/": "sidock",
-    "http://www.worldcommunitygrid.org/": "world_community_grid",
+    "http://www.worldcommunitygrid.org/": "wcg",
     "https://climateprediction.net/": "climate_prediction",
     "http://www.cosmologyathome.org/": "cosmology",
-    "https://lhcathome.cern.ch/lhcathome/":"lhc",
+    "https://lhcathome.cern.ch/lhcathome/": "lhc",
     "https://www.mlcathome.org/mlcathome/": "mlc",
-    "https://universeathome.pl/universe/": "universe"
+    "https://universeathome.pl/universe/": "universe",
+    "http://www.rnaworld.de/rnaworld/": "rna worls"
 }
 
 
