@@ -27,6 +27,8 @@ class Project:
         if self.project_name == "sidock":
             return "red"
         if self.project_name == "einstein":
+            return "cyan"
+        if self.project_name == "wcg":
             return "yellow"
         return "black"
 

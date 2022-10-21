@@ -7,7 +7,6 @@ from src.utilities_b import get_hurry
 from src.utilities_b import get_standard
 from src.utilities_b import get_project_prio
 from src.utilities import human_duration
-from src.utilities import read_json_file
 from src.utilities import human_timestamp
 _ = [sys]
 

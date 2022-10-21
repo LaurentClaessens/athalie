@@ -52,12 +52,14 @@ def random_string(length):
     return "".join(rn_list)
 
 
-def human_timestamp(now=None):
+def human_timestamp(now=None, format_str=None):
     """Return a human readable timestamp."""
     if now is None:
         now = time.time()
+    if format_str is None:
+        format_str = "%Z - %A  %Y/%B/%d, %H:%M:%S"
     local_time = time.localtime(now)
-    return time.strftime("%Z - %A  %Y/%B/%d, %H:%M:%S", local_time)
+    return time.strftime(format_str, local_time)
 
 
 def json_serial(obj):
