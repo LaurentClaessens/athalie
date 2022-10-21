@@ -12,17 +12,18 @@ from src.utilities import human_timestamp
 dprint = print
 
 
-def get_standard(obj, new_tasks=True):
+def get_standard(obj, new_tasks=True, indexes=None):
     """First and two lasts."""
+    if indexes is None:
+        indexes = [-1, -2, 0]
     tasks = obj.by_remaining()
     if not new_tasks:
         tasks = [task for task in tasks if task.is_started()]
 
     answer = []
     with contextlib.suppress(IndexError):
-        answer.append(tasks[-1])
-        answer.append(tasks[-2])
-        answer.append(tasks[0])
+        for idx in indexes:
+            answer.append(tasks[idx])
 
     return answer
 
@@ -30,13 +31,16 @@ def get_standard(obj, new_tasks=True):
 def get_project_prio(station):
     """Return the tasks of the projects sorted by project priority."""
     prio = []
-    for name in ["lhc", "rosetta", "mlc"]:
-        prio.extend(get_standard(station.get_project(name)))
+    for name in ["lhc", "rosetta", "mlc", "wcg"]:
+        project = station.get_project(name)
+        pr_prio = get_standard(project, indexes=[0, -1, -2])
+        prio.extend(pr_prio)
 
     projects = station.projects
     projects.sort(key=lambda x: x.credit)
     for project in station.projects:
-        prio.extend(get_standard(project))
+        pr_prio = get_standard(project, indexes=[0, -1, -2])
+        prio.extend(pr_prio)
     return prio
 
 
