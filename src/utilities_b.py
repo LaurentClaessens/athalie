@@ -1,12 +1,9 @@
 """Utilities for athalie."""
 
 
-import time
 import contextlib
 
-from src.utilities import human_duration
 from src.utilities import read_json_file
-from src.utilities import human_timestamp
 
 
 dprint = print
@@ -16,7 +13,12 @@ def get_standard(obj, new_tasks=True, indexes=None):
     """First and two lasts."""
     if indexes is None:
         indexes = [-1, -2, 0]
-    tasks = obj.by_remaining()
+    try:
+        tasks = obj.by_remaining()
+    except AttributeError:
+        # Assume 'obj' is a list of tasks
+        obj.sort(key=lambda x: x.remaining)
+        tasks = obj
     if not new_tasks:
         tasks = [task for task in tasks if task.is_started()]
 
@@ -72,13 +74,8 @@ def get_hurry(station, new_tasks=True):
     if not new_tasks:
         tasks = [task for task in tasks if task.is_started()]
 
-    prio = [task for task in tasks if is_hurry(task, hurry_strs)]
-    hurry_duration = list_duration(prio)
-    end_time = time.time() + hurry_duration
-
-    print(
-        f"hurry {human_duration(hurry_duration)} -> "
-        f"{human_timestamp(end_time)}")
+    h_tasks = [task for task in tasks if is_hurry(task, hurry_strs)]
+    prio = get_standard(h_tasks)
 
     prio = remove_duplicates(prio)
     return prio
