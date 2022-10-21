@@ -18,13 +18,23 @@ dprint = print
 def print_summary(tasks):
     """Print a summary of the tasks."""
     tasks.sort(key=lambda x: x.remaining)
+    now = time.time()
     for task in tasks:
         color = task.project.color
         pr_str = task.human_remaining.ljust(9)
         my_str = human_duration(task.my_remaining()).ljust(9)
         deadline = task.report_deadline_str
         deadline = ""
-        active = ["", "*"][task.active_state == "EXECUTING"]
+
+        format_str = "%H:%M"
+        end_time = now + task.remaining
+        boinc_previsions = human_timestamp(end_time, format_str=format_str)
+        end_time = now + task.my_remaining()
+        my_previsions = human_timestamp(end_time, format_str=format_str)
+
+        previsions = f"lui: {boinc_previsions}, moi: {my_previsions}"
+
+        active = ["", previsions][task.active_state == "EXECUTING"]
         with ColorPrint(color):
             print(deadline, task.project_name.ljust(8), pr_str, my_str, active)
 

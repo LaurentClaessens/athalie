@@ -19,6 +19,7 @@ def get_standard(obj, new_tasks=True, indexes=None):
         # Assume 'obj' is a list of tasks
         obj.sort(key=lambda x: x.remaining)
         tasks = obj
+
     if not new_tasks:
         tasks = [task for task in tasks if task.is_started()]
 
