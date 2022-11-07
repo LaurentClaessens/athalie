@@ -57,9 +57,6 @@ def do_work(station):
     h_tasks = get_hurry(station)
 
     print_summary(station.by_remaining())
-    # print_previsions(station.by_remaining())
-    # print("--")
-    # print_summary(h_tasks)
     print_previsions(h_tasks)
 
 

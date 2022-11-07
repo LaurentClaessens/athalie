@@ -34,7 +34,7 @@ def get_standard(obj, new_tasks=True, indexes=None):
 def get_project_prio(station):
     """Return the tasks of the projects sorted by project priority."""
     prio = []
-    for name in ["lhc", "rosetta", "mlc", "wcg"]:
+    for name in ["lhc", "mlc", "sidock"]:
         project = station.get_project(name)
         pr_prio = get_standard(project, indexes=[0, -1, -2])
         prio.extend(pr_prio)
@@ -76,7 +76,8 @@ def get_hurry(station, new_tasks=True):
         tasks = [task for task in tasks if task.is_started()]
 
     h_tasks = [task for task in tasks if is_hurry(task, hurry_strs)]
-    prio = get_standard(h_tasks)
+    prio = get_standard(h_tasks, indexes=[-1, -2, 0])
+    prio.extend(h_tasks)
 
     prio = remove_duplicates(prio)
     return prio
