@@ -60,5 +60,5 @@ def do_work(station):
     print_previsions(h_tasks)
 
 
-with Station() as station:
-    do_work(station)
+station = Station()
+do_work(station)
