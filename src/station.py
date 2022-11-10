@@ -21,8 +21,10 @@ class Station:
         """Initialize"""
         # json_tasks = get_json_tasks()
         json_tasks = get_boinccmd_json("--get_tasks")
-        self.tasks = [Task(task) for task in json_tasks
-                      if not task["ready_to_report"]]
+        all_tasks = [Task(task) for task in json_tasks]
+        self.tasks = [task for task in all_tasks
+                      if task.available_to_work()]
+
         project_jsons = get_boinccmd_json("--get_project_status")
         self.projects = [Project(proj_json, self)
                          for proj_json in project_jsons]
