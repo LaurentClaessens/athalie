@@ -26,6 +26,15 @@ class Task:
         self.report_deadline_str = self.json_task['report deadline']
         self.project = None
 
+    def available_to_work(self):
+        """Say if the task is available to work."""
+        if self.ready_to_report:
+            return False
+        if self.json_task["state"] == "downloading":
+            return False
+
+        return True
+
     def is_started(self):
         """Say if the computation is already started."""
         elapsed = float(self.json_task["elapsed task time"])
