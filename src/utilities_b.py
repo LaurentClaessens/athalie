@@ -1,9 +1,11 @@
 """Utilities for athalie."""
 
 
+import sys
 import contextlib
 
 from src.utilities import read_json_file
+_ = sys
 
 
 dprint = print
@@ -68,7 +70,9 @@ def remove_duplicates(my_list):
 
 def get_hurry(station, new_tasks=True):
     """Add the task in a hurry."""
-    hurry_strs = read_json_file("hurry_strings.json")
+    hurry_parms = read_json_file("hurry_strings.json")
+    hurry_strs = hurry_parms["dates"]
+    hurry_names = hurry_parms["task_names"]
     prio = []
     tasks = station.by_remaining()
     tasks.reverse()
@@ -78,6 +82,11 @@ def get_hurry(station, new_tasks=True):
     h_tasks = [task for task in tasks if is_hurry(task, hurry_strs)]
     prio = get_standard(h_tasks, indexes=[-1, -2, 0])
     prio.extend(h_tasks)
+
+    for task in tasks:
+        for name in hurry_names:
+            if name in task.name:
+                prio.insert(0, task)
 
     prio = remove_duplicates(prio)
     return prio
