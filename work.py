@@ -54,9 +54,12 @@ def print_previsions(tasks):
 
 def do_work(station):
     """Do the work."""
-    h_tasks = get_hurry(station)
-
     print_summary(station.by_remaining())
+    h_tasks = get_hurry(station)
+    if not h_tasks:
+        print("No prioritary tasks. Here is the total.")
+        h_tasks = station
+
     print_previsions(h_tasks)
 
 
