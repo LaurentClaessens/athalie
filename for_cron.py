@@ -76,7 +76,7 @@ def make_me_happy(station):
 
     hurry_tasks = get_hurry(station)
     project_prio = get_project_prio(station)
-    standard = get_standard(station, indexes=[-1, -2, -3])
+    standard = get_standard(station, indexes=[-1, -2, 0])
 
     sorted_tasks = hurry_tasks + project_prio + standard
 
