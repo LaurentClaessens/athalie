@@ -91,8 +91,6 @@ def make_me_happy(station):
     for task in ok_tasks:
         print(task.project.project_name, task.human_remaining)
 
-    sys.exit(1)
-
     for task in station:
         if task not in ok_tasks:
             task.suspend()
