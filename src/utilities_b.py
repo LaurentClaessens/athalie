@@ -36,11 +36,10 @@ def get_standard(obj, new_tasks=True, indexes=None):
 def get_project_prio(station):
     """Return the tasks of the projects sorted by project priority."""
     prio = []
-
     projects = station.projects
     projects.sort(key=lambda x: x.credit)
     for project in station.projects:
-        pr_prio = get_standard(project, indexes=[0, -1, -2])
+        pr_prio = get_standard(project, indexes=[-1, -2, 0])
         prio.extend(pr_prio)
     return prio
 

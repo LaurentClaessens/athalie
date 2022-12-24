@@ -46,8 +46,8 @@ def get_gap_index(station):
         return None
     indices.sort(key=lambda x: x["delta"])
     sel_gap = indices[-1]
-    dprint(f"selected gap: {sel_gap['index'] + 1}"
-           f"-- {human_duration(sel_gap['delta'])}")
+    print(f"selected gap: {sel_gap['index'] + 1}"
+          f"-- {human_duration(sel_gap['delta'])}")
     return sel_gap["index"]
 
 
@@ -67,35 +67,31 @@ def get_gapped(station):
     return ok_tasks
 
 
-def prioritary_tasks(station):
-    """Return a list of task to be prioritized."""
-    prio = []
-    prio.extend(get_hurry(station))
-    dprint("Hurry", len(prio))
-    prio.extend(get_project_prio(station))
-
-    # prio.extend(get_gapped(station))
-    prio.extend(get_standard(station))
-
-    filtered = []
-    for task in prio:
-        if task not in filtered:
-            filtered.append(task)
-    return filtered
-
-
 def make_me_happy(station):
     """Do the work."""
     print("----------")
     print(human_timestamp())
     print("----------")
     station.resume_all()
-    prio = prioritary_tasks(station)
-    ok_tasks = prio[0:3]
+
+    hurry_tasks = get_hurry(station)
+    project_prio = get_project_prio(station)
+    standard = get_standard(station, indexes=[-1, -2, -3])
+
+    sorted_tasks = hurry_tasks + project_prio + standard
+
+    filtered = []
+    for task in sorted_tasks:
+        if task not in filtered:
+            filtered.append(task)
+
+    ok_tasks = filtered[0:3]
 
     print("selectionnées:")
     for task in ok_tasks:
         print(task.project.project_name, task.human_remaining)
+
+    sys.exit(1)
 
     for task in station:
         if task not in ok_tasks:
