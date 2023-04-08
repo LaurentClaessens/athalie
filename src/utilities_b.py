@@ -2,13 +2,41 @@
 
 
 import sys
+import datetime
 import contextlib
 
+from src.utilities import ciao
 from src.utilities import read_json_file
 _ = sys
 
 
 dprint = print
+
+
+def str_to_day(str_date: str):
+    """
+    Return the datetime of the days given by the string.
+
+    This function accepts inputs like this:
+    Tue Apr 11 02:05:15 2023
+    """
+    str_format = "%a %b %d %H:%M:%S %Y"
+    date = datetime.datetime.strptime(str_date, str_format).date()
+    year = date.year
+    month = date.month
+    day = date.day
+    return datetime.datetime(year, month, day)
+
+
+def is_date_hurry(str_date: str) -> bool:
+    """Say if the given date is too short."""
+    today = datetime.datetime.now()
+
+    due_day = str_to_day(str_date)
+
+    delta = datetime.timedelta(days=3)
+    end_hurry = today + delta
+    return due_day < end_hurry
 
 
 def get_standard(obj, new_tasks=True, indexes=None):
@@ -82,6 +110,10 @@ def get_hurry(station, new_tasks=True):
         for name in hurry_names:
             if name in task.name:
                 prio.insert(0, task)
+
+    date_hurry_tasks = [task for task in tasks if task.is_date_hurry()]
+    date_prio = get_standard(date_hurry_tasks, indexes=[-1, -2, -3])
+    prio = date_prio + prio
 
     prio = remove_duplicates(prio)
     return prio

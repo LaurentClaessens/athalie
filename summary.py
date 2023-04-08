@@ -22,8 +22,6 @@ def print_summary(tasks):
         color = task.project.color
         pr_str = task.human_seconds.ljust(9)
         my_str = human_seconds(task.my_remaining()).ljust(9)
-        deadline = task.report_deadline_str
-        deadline = ""
 
         format_str = "%H:%M"
         end_time = now + task.remaining
@@ -34,8 +32,10 @@ def print_summary(tasks):
         previsions = f"lui: {boinc_previsions}, moi: {my_previsions}"
 
         active = ["", previsions][task.active_state == "EXECUTING"]
+        date_hurry = ["", "*"][task.is_date_hurry()]
         with ColorPrint(color):
-            print(deadline, task.project_name.ljust(8), pr_str, my_str, active)
+            print(task.project_name.ljust(8), pr_str,
+                  my_str, active, date_hurry)
 
 
 def print_previsions(tasks):

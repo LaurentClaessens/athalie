@@ -5,6 +5,9 @@ from src.dirty import url_to_name
 from src.dirty import set_state
 from src.utilities import human_duration
 from src.utilities import human_seconds
+from src.utilities import print_json
+from src.utilities_b import is_date_hurry
+_ = print_json
 
 dprint = print
 
@@ -26,9 +29,14 @@ class Task:
 
         self.elapsed = float(self.json_task.get("elapsed task time", 0))
         self.fraction_done = float(self.json_task.get("fraction done", 0))
-        self.report_deadline_str = self.json_task['report deadline']
+        # self.report_deadline_str = self.json_task['report deadline']
 
         self.project = None
+
+    def is_date_hurry(self):
+        """Say if the task is in a hurry because of a close due date."""
+        str_deadline = self.json_task["report deadline"]
+        return is_date_hurry(str_deadline)
 
     def available_to_work(self):
         """Say if the task is available to work."""
