@@ -6,7 +6,6 @@ import time
 
 from src.utilities import ColorPrint
 from src.utilities import human_seconds
-from src.utilities import human_duration
 from src.utilities import human_timestamp
 from src.utilities_b import list_duration
 from src.utilities_b import get_hurry
@@ -21,8 +20,8 @@ def print_summary(tasks):
     now = time.time()
     for task in tasks:
         color = task.project.color
-        pr_str = task.human_remaining.ljust(9)
-        my_str = human_duration(task.my_remaining()).ljust(9)
+        pr_str = task.human_seconds.ljust(9)
+        my_str = human_seconds(task.my_remaining()).ljust(9)
         deadline = task.report_deadline_str
         deadline = ""
 

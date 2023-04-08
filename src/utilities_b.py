@@ -39,7 +39,7 @@ def get_project_prio(station):
     projects = station.projects
     projects.sort(key=lambda x: x.credit)
     for project in station.projects:
-        pr_prio = get_standard(project, indexes=[-1, -2, 0])
+        pr_prio = get_standard(project, indexes=[0, -1, -2])
         prio.extend(pr_prio)
     return prio
 

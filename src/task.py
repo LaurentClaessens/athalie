@@ -4,6 +4,7 @@
 from src.dirty import url_to_name
 from src.dirty import set_state
 from src.utilities import human_duration
+from src.utilities import human_seconds
 
 dprint = print
 
@@ -16,6 +17,7 @@ class Task:
         self.json_task = json_task
         self.remaining = json_task.get("remaining", 0)
         self.human_remaining = human_duration(self.remaining)
+        self.human_seconds = human_seconds(self.remaining)
         self.name = json_task["name"]
         self.active_state = json_task["active_task_state"]
         self.ready_to_report = json_task["ready_to_report"]

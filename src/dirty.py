@@ -13,7 +13,7 @@ url_to_name = {
     "http://einstein.phys.uwm.edu/": "einstein",
     "https://www.sidock.si/sidock/": "sidock",
     "http://www.worldcommunitygrid.org/": "wcg",
-    "https://climateprediction.net/": "climate_prediction",
+    "https://climateprediction.net/": "climat",
     "http://www.cosmologyathome.org/": "cosmology",
     "https://lhcathome.cern.ch/lhcathome/": "lhc",
     "https://www.mlcathome.org/mlcathome/": "mlc",

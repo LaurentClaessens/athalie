@@ -34,6 +34,7 @@ class ColorPrint:
         print(fore_color, end="")
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
+        _ = exc_type, exc_value, exc_traceback
         print(Style.RESET_ALL, end="")
 
 
@@ -48,7 +49,7 @@ def human_duration(duration):
 
 def random_string(length):
     """Return a random string of letters of the given length."""
-    rn_list = [random.choice(string.ascii_letters) for i in range(1, length)]
+    rn_list = [random.choice(string.ascii_letters) for _ in range(1, length)]
     return "".join(rn_list)
 
 
@@ -72,13 +73,20 @@ def json_serial(obj):
     return str(obj)
 
 
+def print_json(json_dict, pretty=True):
+    """Print the json"""
+    str_json = json_to_str(json_dict, pretty=pretty)
+    print(str_json)
+
+
 def json_to_str(json_dict, pretty=False, default=None):
     """Return a string representation of the given json."""
+    default = default or json_serial
     if pretty:
         return json.dumps(json_dict,
                           sort_keys=True,
                           indent=4,
-                          default=json_serial)
+                          default=default)
     return json.dumps(json_dict, default=json_serial)
 
 
@@ -126,9 +134,25 @@ def human_seconds(total):
 
     `total` is a number of seconds and we return xxh:yym:zzs
     """
-    hours = math.floor(total / 3600)
-    remainder = total - 3600 * hours
+    days = math.floor(total / 86400)
+    remainder = total - 86400 * days
+    hours = math.floor(remainder / 3600)
+    remainder = remainder - 3600 * hours
     minutes = math.floor(remainder / 60)
     remainder = remainder - 60 * minutes
     seconds = round(remainder)
-    return f"{hours}h{minutes}m{seconds}s".ljust(9)
+    answer = "  "
+    if days:
+        answer = f"{days}j"
+    answer = answer + f"{hours}h{minutes}m{seconds}s"
+    return answer.ljust(12)
+
+
+def ciao(text=None):
+    """Exit the program."""
+    print("ciao!")
+    if text:
+        print("")
+        print(text)
+    if random.random() < 2:
+        sys.exit(1)
