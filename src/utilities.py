@@ -40,8 +40,7 @@ class ColorPrint:
 
 def human_duration(duration):
     """Write a human readable duration (in seconds)"""
-    # days = int(duration // 86400)
-    hours = int(duration // 3600 % 24)
+    hours = int(duration // 3600)
     minutes = int(duration // 60 % 60)
     seconds = int(duration % 60)
     return f"{hours}h{minutes}m{seconds}s"
