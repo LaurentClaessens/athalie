@@ -33,6 +33,11 @@ class Station:
             for task in project:
                 task.project = project
 
+    def date_hurry_tasks(self):
+        """Return the list of date hurry tasks"""
+        return [task for task in self if task.is_date_hurry()]
+
+
     def get_project(self, project_name):
         """Return the requested project."""
         for project in self.projects:

@@ -59,6 +59,10 @@ def do_work(station):
 
     print_summary(station.by_remaining())
     h_tasks = get_hurry(station)
+    date_hurry_tasks = station.date_hurry_tasks()
+    if date_hurry_tasks:
+        print("date hurry tasks")
+        h_tasks = date_hurry_tasks
     if not h_tasks:
         print("No prioritary tasks. Here is the total.")
         h_tasks = station
