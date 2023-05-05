@@ -72,7 +72,7 @@ def get_project_prio(station):
         if project.project_name == "einstein":
             pr_prio = []
             tasks = project.by_deadline()
-            pr_prio = get_standard(tasks, indexes=[0, -1, -2])
+            pr_prio = get_standard(tasks, indexes=[0, 1, 2])
         prio.extend(pr_prio)
     return prio
 
