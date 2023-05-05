@@ -1,5 +1,7 @@
 """An object to manage a task."""
 
+import datetime
+
 
 from src.dirty import url_to_name
 from src.dirty import set_state
@@ -32,6 +34,13 @@ class Task:
         # self.report_deadline_str = self.json_task['report deadline']
 
         self.project = None
+
+    def deadline(self)->datetime.datetime:
+        """Return the timestamp of the deadline."""
+        str_format = "%a %b %d %H:%M:%S %Y"
+        str_date = self.json_task['report deadline']
+        date = datetime.datetime.strptime(str_date, str_format)
+        return date
 
     def is_date_hurry(self):
         """Say if the task is in a hurry because of a close due date."""

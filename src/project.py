@@ -45,6 +45,11 @@ class Project:
         self.tasks.sort(key=lambda task: task.remaining)
         return self.tasks
 
+    def by_deadline(self):
+        """Return the list of tasks sorted by deadline."""
+        self.tasks.sort(key=lambda task: task.deadline())
+        return self.tasks
+
     def __getitem__(self, index):
         """Make Station iterable over the tasks."""
         return self.tasks[index]
