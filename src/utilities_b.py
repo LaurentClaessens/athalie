@@ -72,7 +72,7 @@ def get_project_prio(station):
         if project.project_name == "einstein":
             pr_prio = []
             tasks = project.by_deadline()
-            pr_prio = tasks[0:3]
+            pr_prio = get_standard(tasks, indexes=[0, -1, -2])
         prio.extend(pr_prio)
     return prio
 
@@ -116,8 +116,9 @@ def get_hurry(station, new_tasks=True):
             if name in task.name:
                 prio.insert(0, task)
 
-    date_hurry_tasks = [task for task in tasks if task.is_date_hurry()]
+    date_hurry_tasks = station.date_hurry_tasks()
     date_prio = get_standard(date_hurry_tasks, indexes=[-1, -2, -3])
+
     prio = date_prio + prio
 
     prio = remove_duplicates(prio)
