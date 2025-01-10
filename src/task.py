@@ -1,5 +1,6 @@
 """An object to manage a task."""
 
+from typing import TYPE_CHECKING
 import datetime
 
 
@@ -10,6 +11,9 @@ from src.utilities import human_seconds
 from src.utilities import print_json
 from src.utilities_b import is_date_hurry
 _ = print_json
+
+if TYPE_CHECKING:
+    from src.project import Project
 
 dprint = print
 
@@ -33,9 +37,9 @@ class Task:
         self.fraction_done = float(self.json_task.get("fraction done", 0))
         # self.report_deadline_str = self.json_task['report deadline']
 
-        self.project = None
+        self.project: 'Project'
 
-    def deadline(self)->datetime.datetime:
+    def deadline(self) -> datetime.datetime:
         """Return the timestamp of the deadline."""
         str_format = "%a %b %d %H:%M:%S %Y"
         str_date = self.json_task['report deadline']

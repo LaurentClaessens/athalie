@@ -91,6 +91,15 @@ def make_me_happy(station):
     for task in ok_tasks:
         print(task.project.project_name, task.human_remaining)
 
+    date_hurry_tasks = station.date_hurry_tasks()
+    date_prio = get_standard(date_hurry_tasks, indexes=[-1, -2, -3])
+
+    if not date_prio:
+        print("pas de dates prio, donc je ne fais rien")
+        return
+
+    ok_tasks = date_prio
+
     for task in station:
         if task not in ok_tasks:
             task.suspend()

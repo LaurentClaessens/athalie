@@ -18,7 +18,8 @@ url_to_name = {
     "https://lhcathome.cern.ch/lhcathome/": "lhc",
     "https://www.mlcathome.org/mlcathome/": "mlc",
     "https://universeathome.pl/universe/": "universe",
-    "http://www.rnaworld.de/rnaworld/": "rna worls"
+    "http://www.rnaworld.de/rnaworld/": "rna worlds",
+    "https://asteroidsathome.net/boinc/": "asteroïdes"
 }
 
 

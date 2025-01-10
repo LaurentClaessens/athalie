@@ -1,6 +1,7 @@
 #!venv/bin/python3
 
 
+from typing import TYPE_CHECKING
 import time
 
 
@@ -11,10 +12,13 @@ from src.utilities_b import list_duration
 from src.utilities_b import get_hurry
 from src.station import Station
 
+if TYPE_CHECKING:
+    from src.task import Task
+
 dprint = print
 
 
-def print_summary(tasks):
+def print_summary(tasks: list['Task']):
     """Print a summary of the tasks."""
     tasks.sort(key=lambda x: x.remaining)
     now = time.time()

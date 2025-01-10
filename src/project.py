@@ -32,6 +32,9 @@ class Project:
             return "yellow"
         if self.project_name == "climat":
             return "blue"
+        if self.project_name == "asteroïdes":
+            return "magenta"
+
         return "black"
 
     def show_json(self):
